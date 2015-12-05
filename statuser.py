@@ -24,7 +24,7 @@ def collect_git_statuses(root):
     if is_git_directory(root):
         print("Root is a git directory")
         return
-    
+
     folders = os.listdir(root)
 
     for folder in folders:
@@ -34,7 +34,7 @@ def collect_git_statuses(root):
             result["git"][path] = git_status()
         else:
             result["notgit"].append(path)
-        
+
     return result
 
 root = os.getcwd()
@@ -47,11 +47,11 @@ all_folders = collect_git_statuses(root)
 repos = all_folders["git"]
 not_repos = all_folders["notgit"]
 
-print("Git repos with git status: ")
+repos = [r for r in repos if "nothing to commit" not in repos[r]]
+print("Git repos with git status: {}".format(len(repos)))
 for repo in repos:
-    if "nothing to commit" not in repos[repo]:
-        print(repo)
+    print(repo)
 
-print("Not git repos:")
+print("Not git repos: {}".format(len(not_repos)))
 for folder in not_repos:
     print(folder)
